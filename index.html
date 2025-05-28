@@ -1,44 +1,88 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>تحليل الأشعة الذكي</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        .upload-box {
-            border: 2px dashed #aaa;
-            padding: 30px;
-            border-radius: 10px;
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تحليل الأشعة</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f4f9fc;
+      color: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #0077b6;
+      margin-bottom: 20px;
+    }
+    .upload-box {
+      background: #fff;
+      border: 2px dashed #0077b6;
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+    input[type="file"] {
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0077b6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e0f7fa;
+      border-radius: 10px;
+      display: none;
+    }
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
 
-    <h1>📷 تحليل الأشعة بالذكاء الاصطناعي</h1>
-    <p>ارفع صورة الأشعة الخاصة بك.</p>
+  <h1>نظام ذكي لتحليل الأشعة</h1>
 
-    <div class="upload-box">
-        <input type="file" accept="image/*" id="xrayInput">
-        <p id="status">لم يتم رفع أي صورة بعد.</p>
-    </div>
+  <div class="upload-box">
+    <label for="xray">ارفع صورة الأشعة:</label><br>
+    <input type="file" id="xray" accept="image/*">
+    <div id="filename"></div>
+    <button onclick="showResult()">تحليل</button>
+  </div>
 
-    <script>
-        const input = document.getElementById('xrayInput');
-        const status = document.getElementById('status');
+  <div class="result" id="result">
+    <h3>نتيجة التحليل:</h3>
+    <p>سيتم عرض نتيجة الذكاء الاصطناعي هنا لاحقًا.</p>
+  </div>
 
-        input.addEventListener('change', () => {
-            if (input.files.length > 0) {
-                status.textContent = "✅ تم استلام الصورة. سيتم تحليلها لاحقًا.";
-            } else {
-                status.textContent = "لم يتم رفع أي صورة بعد.";
-            }
-        });
-    </script>
+  <footer>
+    © 2025 د. مصطفى - جميع الحقوق محفوظة.
+  </footer>
+
+  <script>
+    const input = document.getElementById('xray');
+    const filenameDiv = document.getElementById('filename');
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      filenameDiv.textContent = file ? "تم اختيار الملف: " + file.name : "";
+    });
+
+    function showResult() {
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
 
 </body>
 </html>
