@@ -1,41 +1,117 @@
-<script>
-  const input = document.getElementById('xray');
-  const filenameDiv = document.getElementById('filename');
-  const resultDiv = document.getElementById('result');
-
-  input.addEventListener('change', () => {
-    const file = input.files[0];
-    filenameDiv.textContent = file ? "تم اختيار الملف: " + file.name : "";
-  });
-
-  async function showResult() {
-    const file = input.files[0];
-    if (!file) {
-      alert('يرجى اختيار صورة أولاً.');
-      return;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تحليل الأشعة</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f4f9fc;
+      color: #333;
+      padding: 20px;
+      text-align: center;
     }
-
-    const formData = new FormData();
-    formData.append('image', file);
-
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = '⏳ جاري تحليل الصورة...';
-
-    try {
-      const response = await fetch('https://xray-analyzer-api.replit.app/analyze', {
-        method: 'POST',
-        body: formData
-      });
-
-      const data = await response.json();
-      resultDiv.innerHTML = `
-        <h3>✅ نتيجة التحليل:</h3>
-        <p><strong>${data.diagnosis}</strong></p>
-        <p>نسبة الثقة: ${data.confidence}</p>
-      `;
-    } catch (error) {
-      resultDiv.innerHTML = '❌ حدث خطأ أثناء التحليل، يرجى المحاولة لاحقًا.';
-      console.error(error);
+    h1 {
+      color: #0077b6;
+      margin-bottom: 20px;
     }
-  }
-</script>
+    .upload-box {
+      background: #fff;
+      border: 2px dashed #0077b6;
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+    input[type="file"] {
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0077b6;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 30px;
+      padding: 20px;
+      background: #e0f7fa;
+      border-radius: 10px;
+      display: none;
+    }
+    footer {
+      margin-top: 50px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>نظام ذكي لتحليل الأشعة</h1>
+
+  <div class="upload-box">
+    <label for="xray">ارفع صورة الأشعة:</label><br>
+    <input type="file" id="xray" accept="image/*">
+    <div id="filename"></div>
+    <button id="analyzeBtn">تحليل</button>
+  </div>
+
+  <div class="result" id="result">
+    <h3>نتيجة التحليل:</h3>
+    <p>سيتم عرض نتيجة الذكاء الاصطناعي هنا لاحقًا.</p>
+  </div>
+
+  <footer>
+    © 2025 د. مصطفى - جميع الحقوق محفوظة.
+  </footer>
+
+  <script>
+    const input = document.getElementById('xray');
+    const filenameDiv = document.getElementById('filename');
+    const resultDiv = document.getElementById('result');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+
+    input.addEventListener('change', () => {
+      const file = input.files[0];
+      filenameDiv.textContent = file ? "تم اختيار الملف: " + file.name : "";
+    });
+
+    analyzeBtn.addEventListener('click', async () => {
+      const file = input.files[0];
+      if (!file) {
+        alert('يرجى اختيار صورة أولاً.');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = '⏳ جاري تحليل الصورة...';
+
+      try {
+        const response = await fetch('https://xray-analyzer-api.replit.app/analyze', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+        resultDiv.innerHTML = `
+          <h3>✅ نتيجة التحليل:</h3>
+          <p><strong>${data.diagnosis}</strong></p>
+          <p>نسبة الثقة: ${data.confidence}</p>
+        `;
+      } catch (error) {
+        console.error(error);
+        resultDiv.innerHTML = '❌ حدث خطأ أثناء التحليل، يرجى المحاولة لاحقًا.';
+      }
+    });
+  </script>
+
+</body>
+</html>
