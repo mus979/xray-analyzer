@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تحليل الأشعة الذكي</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .upload-box {
+            border: 2px dashed #aaa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📷 تحليل الأشعة بالذكاء الاصطناعي</h1>
+    <p>ارفع صورة الأشعة الخاصة بك.</p>
+
+    <div class="upload-box">
+        <input type="file" accept="image/*" id="xrayInput">
+        <p id="status">لم يتم رفع أي صورة بعد.</p>
+    </div>
+
+    <script>
+        const input = document.getElementById('xrayInput');
+        const status = document.getElementById('status');
+
+        input.addEventListener('change', () => {
+            if (input.files.length > 0) {
+                status.textContent = "✅ تم استلام الصورة. سيتم تحليلها لاحقًا.";
+            } else {
+                status.textContent = "لم يتم رفع أي صورة بعد.";
+            }
+        });
+    </script>
+
+</body>
+</html>
